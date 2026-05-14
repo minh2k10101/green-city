@@ -21,8 +21,7 @@ html,body{
     height:100%;
     overflow:hidden;
     font-family:'Segoe UI',sans-serif;
-    background:
-    linear-gradient(to bottom,#dffff0,#f7fff7);
+    background:linear-gradient(to bottom,#dffff0,#f4fff4);
 }
 
 /* ===== MENU ===== */
@@ -38,13 +37,13 @@ html,body{
 
     gap:18px;
 
-    animation:menuOpen 0.7s ease;
+    animation:menuOpen .8s ease;
 }
 
 @keyframes menuOpen{
     from{
         opacity:0;
-        transform:translateY(60px);
+        transform:translateY(50px);
     }
     to{
         opacity:1;
@@ -53,12 +52,13 @@ html,body{
 }
 
 .title{
-    font-size:clamp(45px,8vw,95px);
-    color:#1d8b2f;
-    margin-bottom:20px;
+    font-size:clamp(45px,8vw,90px);
+    color:#1e8e31;
 
     text-shadow:
-    0 5px 15px rgba(0,0,0,0.15);
+    0 10px 20px rgba(0,0,0,.15);
+
+    margin-bottom:20px;
 }
 
 /* ===== BUTTON ===== */
@@ -69,9 +69,9 @@ button{
 
     padding:15px 35px;
 
-    font-size:clamp(17px,2vw,28px);
-
     border-radius:18px;
+
+    font-size:clamp(17px,2vw,28px);
 
     cursor:pointer;
 
@@ -80,14 +80,14 @@ button{
     background:
     linear-gradient(
         135deg,
-        #59df59,
+        #5ce15c,
         #279327
     );
 
     box-shadow:
-    0 8px 20px rgba(0,0,0,0.18);
+    0 10px 20px rgba(0,0,0,.15);
 
-    transition:0.25s;
+    transition:.25s;
 }
 
 button:hover{
@@ -103,12 +103,12 @@ button:hover{
     display:none;
 
     opacity:0;
-    transform:translateY(60px);
+    transform:translateY(50px);
 }
 
 #game.show{
     display:flex;
-    animation:gameOpen 0.5s ease forwards;
+    animation:gameOpen .5s ease forwards;
 }
 
 @keyframes gameOpen{
@@ -123,62 +123,50 @@ button:hover{
 #city{
     width:40%;
     display:grid;
-    background:#a7f3a7;
+    background:#98e98f;
 }
 
 .tile{
-    border:1px solid rgba(255,255,255,0.3);
     position:relative;
     overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.3);
 }
 
 .tile.gray{
-    background:#727272;
+    background:#777;
 }
 
 .tile.green{
     background:
     linear-gradient(
         to bottom,
-        #7dff72,
-        #42be42
+        #7eff72,
+        #47c947
     );
 
-    animation:greenGrow 0.4s ease;
+    animation:greenGrow .4s ease;
 }
 
 @keyframes greenGrow{
     from{
-        transform:scale(0.8);
         opacity:0;
+        transform:scale(.8);
     }
     to{
-        transform:scale(1);
         opacity:1;
+        transform:scale(1);
     }
 }
 
 .tree{
     position:absolute;
-    font-size:clamp(18px,2vw,34px);
-
-    animation:pop 0.5s ease;
+    font-size:clamp(18px,2vw,35px);
 }
 
 .flower{
     position:absolute;
-    font-size:clamp(12px,1vw,18px);
-
-    animation:pop 0.6s ease;
-}
-
-@keyframes pop{
-    from{
-        transform:scale(0);
-    }
-    to{
-        transform:scale(1);
-    }
+    font-size:clamp(10px,1vw,18px);
 }
 
 /* ===== RIGHT ===== */
@@ -210,7 +198,7 @@ button:hover{
 #score{
     font-size:clamp(20px,2vw,34px);
     font-weight:bold;
-    color:#168116;
+    color:#1a8e1a;
 }
 
 /* ===== MESSAGE ===== */
@@ -220,7 +208,7 @@ button:hover{
     color:#199919;
     font-weight:bold;
 
-    margin-top:10px;
+    margin:10px;
     text-align:center;
 }
 
@@ -252,8 +240,8 @@ button:hover{
     background:
     linear-gradient(
         135deg,
-        #2e4156,
-        #1b2d3f
+        #30445a,
+        #1d3045
     );
 
     display:flex;
@@ -266,10 +254,10 @@ button:hover{
 
     cursor:pointer;
 
-    transition:0.25s;
+    transition:.25s;
 
     box-shadow:
-    0 10px 20px rgba(0,0,0,0.18);
+    0 10px 20px rgba(0,0,0,.18);
 }
 
 .card:hover{
@@ -294,14 +282,13 @@ button:hover{
     color:white;
 }
 
-/* ===== GUIDE ===== */
+/* ===== POPUP ===== */
 
-#guidePage{
+.popup{
     position:absolute;
     inset:0;
 
-    background:
-    rgba(0,0,0,0.4);
+    background:rgba(0,0,0,.45);
 
     display:none;
 
@@ -311,8 +298,8 @@ button:hover{
     z-index:999;
 }
 
-#guideBox{
-    width:min(90%,650px);
+.popupBox{
+    width:min(90%,700px);
 
     background:white;
 
@@ -322,13 +309,16 @@ button:hover{
 
     text-align:center;
 
-    animation:guideOpen 0.4s ease;
+    animation:popupOpen .4s ease;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.2);
 }
 
-@keyframes guideOpen{
+@keyframes popupOpen{
     from{
         opacity:0;
-        transform:scale(0.8);
+        transform:scale(.8);
     }
     to{
         opacity:1;
@@ -336,15 +326,41 @@ button:hover{
     }
 }
 
-#guideBox h1{
-    color:#1f932f;
+.popupBox h1{
+    color:#1e8e31;
     margin-bottom:20px;
 }
 
-#guideBox p{
-    margin:12px 0;
+.popupBox p{
+    margin:14px 0;
     font-size:20px;
     color:#444;
+    line-height:1.6;
+}
+
+/* ===== STARS ===== */
+
+#stars{
+    margin:25px 0;
+}
+
+#stars span{
+    font-size:55px;
+    cursor:pointer;
+
+    filter:grayscale(100%);
+
+    transition:.25s;
+}
+
+#stars span.active{
+    filter:grayscale(0%);
+    transform:scale(1.15);
+}
+
+#submitRate:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
 /* ===== MOBILE ===== */
@@ -374,7 +390,7 @@ button:hover{
 @media(max-width:500px){
 
     .title{
-        font-size:48px;
+        font-size:50px;
     }
 
     button{
@@ -392,6 +408,7 @@ button:hover{
     .card{
         width:72px;
         height:72px;
+
         font-size:32px;
     }
 
@@ -428,8 +445,12 @@ button:hover{
         Hard
     </button>
 
-    <button onclick="openGuide()">
+    <button onclick="openPopup('guidePage')">
         📖 Hướng dẫn
+    </button>
+
+    <button onclick="openPopup('meaningPage')">
+        🏙️ Bê tông hóa
     </button>
 
 </div>
@@ -464,19 +485,83 @@ button:hover{
 
 <!-- ===== GUIDE ===== -->
 
-<div id="guidePage">
+<div id="guidePage" class="popup">
 
-    <div id="guideBox">
+    <div class="popupBox">
 
         <h1>📖 Cách Chơi</h1>
 
         <p>🎴 Lật 2 thẻ giống nhau để ghép cặp</p>
-        <p>🌱 Ghép đúng sẽ xanh hóa thành phố</p>
-        <p>🏆 Xanh toàn bộ để chiến thắng</p>
-        <p>⚡ Càng khó càng nhiều thẻ</p>
 
-        <button onclick="closeGuide()">
+        <p>🌱 Ghép đúng sẽ biến bê tông thành cây xanh</p>
+
+        <p>🏆 Xanh hóa toàn bộ thành phố để chiến thắng</p>
+
+        <button onclick="closePopup('guidePage')">
             ⬅ Quay lại
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===== MEANING ===== -->
+
+<div id="meaningPage" class="popup">
+
+    <div class="popupBox">
+
+        <h1>🏙️ Ý Nghĩa Bê Tông Hóa</h1>
+
+        <p>
+            Bê tông hóa làm giảm cây xanh,
+            tăng nhiệt độ và ô nhiễm môi trường.
+        </p>
+
+        <p>
+            🌱 Green City giúp nâng cao ý thức
+            bảo vệ môi trường và tăng mảng xanh.
+        </p>
+
+        <button onclick="closePopup('meaningPage')">
+            ⬅ Quay lại
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===== RATING ===== -->
+
+<div id="ratingPage" class="popup">
+
+    <div class="popupBox">
+
+        <h1>⭐ Đánh Giá Game</h1>
+
+        <p>Hãy đánh giá chế độ vừa chơi</p>
+
+        <div id="stars">
+
+            <span onclick="rateGame(1)">⭐</span>
+            <span onclick="rateGame(2)">⭐</span>
+            <span onclick="rateGame(3)">⭐</span>
+            <span onclick="rateGame(4)">⭐</span>
+            <span onclick="rateGame(5)">⭐</span>
+
+        </div>
+
+        <p id="rateText">
+            Hãy chọn số sao
+        </p>
+
+        <button
+        id="submitRate"
+        onclick="submitRate()"
+        disabled>
+
+            Gửi đánh giá
+
         </button>
 
     </div>
@@ -501,13 +586,16 @@ let matched=0;
 let totalPairs=0;
 let greenIndex=0;
 
-/* ===== START GAME ===== */
+let selectedRate=0;
+
+/* ===== START ===== */
 
 function startGame(level){
 
     const game=document.getElementById("game");
 
-    document.getElementById("menu").style.display="none";
+    document.getElementById("menu")
+    .style.display="none";
 
     game.style.display="flex";
 
@@ -544,11 +632,14 @@ function startGame(level){
     createCity(cityCount);
     createCards(pairs,columns);
 
-    document.getElementById("message").innerHTML="";
-    document.getElementById("score").innerHTML="🌱 0";
+    document.getElementById("score")
+    .innerHTML="🌱 0";
+
+    document.getElementById("message")
+    .innerHTML="";
 }
 
-/* ===== CREATE CITY ===== */
+/* ===== CITY ===== */
 
 function createCity(count){
 
@@ -571,7 +662,7 @@ function createCity(count){
     }
 }
 
-/* ===== CREATE CARDS ===== */
+/* ===== CARDS ===== */
 
 function createCards(pairs,columns){
 
@@ -640,7 +731,14 @@ function flip(card){
         if(matched===totalPairs){
 
             document.getElementById("message")
-            .innerHTML="🎉 Thành phố đã xanh hóa!";
+            .innerHTML=
+            "🎉 Thành phố đã xanh hóa!";
+
+            setTimeout(()=>{
+
+                openPopup("ratingPage");
+
+            },1000);
         }
     }
 
@@ -666,7 +764,8 @@ function greenTiles(){
 
     const tiles=document.querySelectorAll(".tile");
 
-    let remain=tiles.length-greenIndex;
+    let remain=
+    tiles.length-greenIndex;
 
     let amount=
     Math.ceil(remain/(totalPairs-matched+1));
@@ -688,14 +787,18 @@ function greenTiles(){
             ["🌳","🌲","🌴"]
             [Math.floor(Math.random()*3)];
 
-            tree.style.left=Math.random()*60+"%";
-            tree.style.top=Math.random()*60+"%";
+            tree.style.left=
+            Math.random()*60+"%";
+
+            tree.style.top=
+            Math.random()*60+"%";
 
             tile.appendChild(tree);
 
             for(let j=0;j<4;j++){
 
-                const flower=document.createElement("div");
+                const flower=
+                document.createElement("div");
 
                 flower.className="flower";
 
@@ -703,8 +806,11 @@ function greenTiles(){
                 ["🌸","🌼","🌻"]
                 [Math.floor(Math.random()*3)];
 
-                flower.style.left=Math.random()*80+"%";
-                flower.style.top=Math.random()*80+"%";
+                flower.style.left=
+                Math.random()*80+"%";
+
+                flower.style.top=
+                Math.random()*80+"%";
 
                 tile.appendChild(flower);
             }
@@ -736,21 +842,80 @@ function backMenu(){
 
     game.style.display="none";
 
-    document.getElementById("menu").style.display="flex";
-}
-
-/* ===== GUIDE ===== */
-
-function openGuide(){
-
-    document.getElementById("guidePage")
+    document.getElementById("menu")
     .style.display="flex";
 }
 
-function closeGuide(){
+/* ===== POPUP ===== */
 
-    document.getElementById("guidePage")
+function openPopup(id){
+
+    document.getElementById(id)
+    .style.display="flex";
+}
+
+function closePopup(id){
+
+    document.getElementById(id)
     .style.display="none";
+}
+
+/* ===== RATING ===== */
+
+function rateGame(star){
+
+    selectedRate=star;
+
+    const stars=
+    document.querySelectorAll("#stars span");
+
+    stars.forEach((s,index)=>{
+
+        if(index<star){
+            s.classList.add("active");
+        }
+
+        else{
+            s.classList.remove("active");
+        }
+    });
+
+    const text=
+    document.getElementById("rateText");
+
+    if(star===1){
+        text.innerHTML="😢 Chưa hay";
+    }
+
+    else if(star===2){
+        text.innerHTML="🙂 Tạm ổn";
+    }
+
+    else if(star===3){
+        text.innerHTML="😊 Khá vui";
+    }
+
+    else if(star===4){
+        text.innerHTML="😍 Rất hay";
+    }
+
+    else{
+        text.innerHTML="🔥 Tuyệt vời!";
+    }
+
+    document.getElementById("submitRate")
+    .disabled=false;
+}
+
+function submitRate(){
+
+    closePopup("ratingPage");
+
+    alert(
+        "🎉 Cảm ơn bạn đã đánh giá "
+        + selectedRate +
+        " sao!"
+    );
 }
 
 </script>
