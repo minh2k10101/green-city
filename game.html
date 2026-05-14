@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Green City</title>
+
+<style>
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial;
+    background:#eef7ee;
+}
+
+#menu{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+h1{
+    font-size:70px;
+    color:#2d7d2d;
+}
+
+button{
+    padding:18px 40px;
+    margin:15px;
+    font-size:25px;
+    border:none;
+    border-radius:20px;
+    background:#4caf50;
+    color:white;
+    cursor:pointer;
+}
+
+#game{
+    display:none;
+    width:100%;
+    height:100vh;
+}
+
+#city{
+    width:40%;
+    display:grid;
+    background:#9be78f;
+}
+
+.tile{
+    border:1px solid rgba(255,255,255,0.5);
+    position:relative;
+    overflow:hidden;
+}
+
+.tile.gray{
+    background:#7a7a7a;
+}
+
+.tile.green{
+    background:#7ee36c;
+}
+
+.flower{
+    position:absolute;
+    font-size:18px;
+}
+
+.tree{
+    position:absolute;
+    font-size:30px;
+}
+
+#cardsArea{
+    width:60%;
+    background:#edf4ed;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+#top{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+#cards{
+    width:100%;
+    display:grid;
+    justify-items:center;
+    gap:20px;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+.card{
+    width:130px;
+    height:130px;
+    border-radius:22px;
+    background:#2f3f52;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:55px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card.open{
+    background:white;
+    color:black;
+}
+
+#message{
+    font-size:35px;
+    color:green;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="menu">
+
+    <h1>🌱 GREEN CITY</h1>
+
+    <button onclick="startGame('easy')">Easy</button>
+
+    <button onclick="startGame('medium')">Medium</button>
+
+    <button onclick="startGame('hard')">Hard</button>
+
+</div>
+
+<div id="game">
+
+    <div id="city"></div>
+
+    <div id="cardsArea">
+
+        <div id="top">
+
+            <button onclick="backMenu()">🏠 Menu</button>
+
+            <div id="score">🌱 0</div>
+
+        </div>
+
+        <div id="message"></div>
+
+        <div id="cards"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+const icons=[
+"🌳","🌻","🍀","🌵","🌴",
+"🌷","🌲","🌺","🍃","🌼",
+"🌱","🪴"
+];
+
+let first=null;
+let second=null;
+let lock=false;
+
+let matched=0;
+let totalPairs=0;
+let greenIndex=0;
+
+function startGame(level){
+
+    document.getElementById("menu").style.display="none";
+    document.getElementById("game").style.display="flex";
+
+    let pairs;
+    let cityCount;
+    let columns;
+
+    if(level==="easy"){
+        pairs=6;
+        cityCount=25;
+        columns=3;
+    }
+
+    else if(level==="medium"){
+        pairs=10;
+        cityCount=49;
+        columns=4;
+    }
+
+    else{
+        pairs=15;
+        cityCount=81;
+        columns=5;
+    }
+
+    totalPairs=pairs;
+    matched=0;
+    greenIndex=0;
+
+    createCity(cityCount);
+
+    createCards(pairs,columns);
+}
+
+function createCity(count){
+
+    const city=document.getElementById("city");
+
+    city.innerHTML="";
+
+    const size=Math.sqrt(count);
+
+    city.style.gridTemplateColumns=
+    `repeat(${size},1fr)`;
+
+    for(let i=0;i<count;i++){
+
+        const tile=document.createElement("div");
+
+        tile.className="tile gray";
+
+        city.appendChild(tile);
+    }
+}
+
+function createCards(pairs,columns){
+
+    const cards=document.getElementById("cards");
+
+    cards.innerHTML="";
+
+    cards.style.gridTemplateColumns=
+    `repeat(${columns},1fr)`;
+
+    const chosen=icons.slice(0,pairs);
+
+    const values=[...chosen,...chosen]
+    .sort(()=>Math.random()-0.5);
+
+    values.forEach(icon=>{
+
+        const card=document.createElement("div");
+
+        card.className="card";
+
+        card.dataset.icon=icon;
+
+        card.innerHTML="?";
+
+        card.onclick=()=>flip(card);
+
+        cards.appendChild(card);
+
+    });
+}
+
+function flip(card){
+
+    if(lock) return;
+
+    if(card===first) return;
+
+    if(card.classList.contains("done")) return;
+
+    card.classList.add("open");
+
+    card.innerHTML=card.dataset.icon;
+
+    if(!first){
+
+        first=card;
+
+        return;
+    }
+
+    second=card;
+
+    lock=true;
+
+    if(first.dataset.icon===second.dataset.icon){
+
+        first.classList.add("done");
+
+        second.classList.add("done");
+
+        matched++;
+
+        greenTiles();
+
+        reset();
+
+        if(matched===totalPairs){
+
+            document.getElementById("message")
+            .innerHTML="🎉 Thành phố đã xanh hóa!";
+        }
+    }
+
+    else{
+
+        setTimeout(()=>{
+
+            first.classList.remove("open");
+
+            second.classList.remove("open");
+
+            first.innerHTML="?";
+
+            second.innerHTML="?";
+
+            reset();
+
+        },700);
+    }
+}
+
+function greenTiles(){
+
+    const tiles=document.querySelectorAll(".tile");
+
+    let remain =
+    tiles.length - greenIndex;
+
+    let amount =
+    Math.ceil(remain / (totalPairs - matched + 1));
+
+    for(let i=0;i<amount;i++){
+
+        if(greenIndex<tiles.length){
+
+            const tile=tiles[greenIndex];
+
+            tile.classList.remove("gray");
+
+            tile.classList.add("green");
+
+            const tree=document.createElement("div");
+
+            tree.className="tree";
+
+            tree.innerHTML=
+            ["🌳","🌲","🌴"]
+            [Math.floor(Math.random()*3)];
+
+            tree.style.left=Math.random()*60+"%";
+
+            tree.style.top=Math.random()*60+"%";
+
+            tile.appendChild(tree);
+
+            for(let j=0;j<4;j++){
+
+                const flower=document.createElement("div");
+
+                flower.className="flower";
+
+                flower.innerHTML=
+                ["🌼","🌸","🌻"]
+                [Math.floor(Math.random()*3)];
+
+                flower.style.left=Math.random()*80+"%";
+
+                flower.style.top=Math.random()*80+"%";
+
+                tile.appendChild(flower);
+            }
+
+            greenIndex++;
+        }
+    }
+
+    document.getElementById("score")
+    .innerHTML="🌱 "+greenIndex;
+}
+function reset(){
+
+    first=null;
+
+    second=null;
+
+    lock=false;
+}
+
+function backMenu(){
+
+    document.getElementById("menu").style.display="flex";
+
+    document.getElementById("game").style.display="none";
+
+    document.getElementById("message").innerHTML="";
+}
+
+</script>
+
+</body>
+</html>
