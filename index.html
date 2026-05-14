@@ -4,128 +4,405 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Green City</title>
+<title>🌱 Green City</title>
 
 <style>
 
-html,body{
+/* ===== RESET ===== */
+
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
     width:100%;
     height:100%;
     overflow:hidden;
-    font-family:Arial;
-    background:#eef7ee;
+    font-family:'Segoe UI',sans-serif;
+    background:
+    linear-gradient(to bottom,#dffff0,#f7fff7);
 }
 
+/* ===== MENU ===== */
+
 #menu{
-    width:100%;
-    height:100vh;
+    position:absolute;
+    inset:0;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
+    gap:18px;
+
+    animation:menuOpen 0.7s ease;
 }
 
-h1{
-    font-size:70px;
-    color:#2d7d2d;
+@keyframes menuOpen{
+    from{
+        opacity:0;
+        transform:translateY(60px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
+
+.title{
+    font-size:clamp(45px,8vw,95px);
+    color:#1d8b2f;
+    margin-bottom:20px;
+
+    text-shadow:
+    0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* ===== BUTTON ===== */
 
 button{
-    padding:18px 40px;
-    margin:15px;
-    font-size:25px;
     border:none;
-    border-radius:20px;
-    background:#4caf50;
-    color:white;
+    outline:none;
+
+    padding:15px 35px;
+
+    font-size:clamp(17px,2vw,28px);
+
+    border-radius:18px;
+
     cursor:pointer;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        #59df59,
+        #279327
+    );
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,0.18);
+
+    transition:0.25s;
 }
 
-#game{
-    display:none;
-    width:100%;
-    height:100vh;
+button:hover{
+    transform:translateY(-3px) scale(1.03);
 }
+
+/* ===== GAME ===== */
+
+#game{
+    position:absolute;
+    inset:0;
+
+    display:none;
+
+    opacity:0;
+    transform:translateY(60px);
+}
+
+#game.show{
+    display:flex;
+    animation:gameOpen 0.5s ease forwards;
+}
+
+@keyframes gameOpen{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===== CITY ===== */
 
 #city{
     width:40%;
     display:grid;
-    background:#9be78f;
+    background:#a7f3a7;
 }
 
 .tile{
-    border:1px solid rgba(255,255,255,0.5);
+    border:1px solid rgba(255,255,255,0.3);
     position:relative;
     overflow:hidden;
 }
 
 .tile.gray{
-    background:#7a7a7a;
+    background:#727272;
 }
 
 .tile.green{
-    background:#7ee36c;
+    background:
+    linear-gradient(
+        to bottom,
+        #7dff72,
+        #42be42
+    );
+
+    animation:greenGrow 0.4s ease;
 }
 
-.flower{
-    position:absolute;
-    font-size:18px;
+@keyframes greenGrow{
+    from{
+        transform:scale(0.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
 .tree{
     position:absolute;
-    font-size:30px;
+    font-size:clamp(18px,2vw,34px);
+
+    animation:pop 0.5s ease;
 }
+
+.flower{
+    position:absolute;
+    font-size:clamp(12px,1vw,18px);
+
+    animation:pop 0.6s ease;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(0);
+    }
+    to{
+        transform:scale(1);
+    }
+}
+
+/* ===== RIGHT ===== */
 
 #cardsArea{
     width:60%;
-    background:#edf4ed;
+    background:#f4fff4;
+
     display:flex;
     flex-direction:column;
+
     align-items:center;
+
+    overflow:auto;
 }
+
+/* ===== TOP ===== */
 
 #top{
     width:100%;
+
     display:flex;
     justify-content:space-between;
-    padding:20px;
-    box-sizing:border-box;
+    align-items:center;
+
+    padding:18px 20px;
 }
+
+#score{
+    font-size:clamp(20px,2vw,34px);
+    font-weight:bold;
+    color:#168116;
+}
+
+/* ===== MESSAGE ===== */
+
+#message{
+    font-size:clamp(24px,3vw,48px);
+    color:#199919;
+    font-weight:bold;
+
+    margin-top:10px;
+    text-align:center;
+}
+
+/* ===== CARDS ===== */
 
 #cards{
     width:100%;
+
     display:grid;
+
     justify-items:center;
-    gap:20px;
+
+    gap:16px;
+
     padding:20px;
-    box-sizing:border-box;
 }
 
+/* ===== CARD ===== */
+
 .card{
-    width:130px;
-    height:130px;
+    width:min(18vw,125px);
+    height:min(18vw,125px);
+
+    min-width:70px;
+    min-height:70px;
+
     border-radius:22px;
-    background:#2f3f52;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2e4156,
+        #1b2d3f
+    );
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     color:white;
-    font-size:55px;
+
+    font-size:clamp(30px,4vw,60px);
+
     cursor:pointer;
-    transition:0.3s;
+
+    transition:0.25s;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,0.18);
+}
+
+.card:hover{
+    transform:translateY(-4px);
 }
 
 .card.open{
     background:white;
     color:black;
+
+    transform:rotateY(180deg);
 }
 
-#message{
-    font-size:35px;
-    color:green;
-    font-weight:bold;
+.card.done{
+    background:
+    linear-gradient(
+        135deg,
+        #7eff7e,
+        #3db63d
+    );
+
+    color:white;
+}
+
+/* ===== GUIDE ===== */
+
+#guidePage{
+    position:absolute;
+    inset:0;
+
+    background:
+    rgba(0,0,0,0.4);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:999;
+}
+
+#guideBox{
+    width:min(90%,650px);
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    animation:guideOpen 0.4s ease;
+}
+
+@keyframes guideOpen{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+#guideBox h1{
+    color:#1f932f;
+    margin-bottom:20px;
+}
+
+#guideBox p{
+    margin:12px 0;
+    font-size:20px;
+    color:#444;
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:900px){
+
+    #game{
+        flex-direction:column;
+    }
+
+    #city{
+        width:100%;
+        height:35%;
+    }
+
+    #cardsArea{
+        width:100%;
+        height:65%;
+    }
+
+    .card{
+        width:min(20vw,95px);
+        height:min(20vw,95px);
+    }
+}
+
+@media(max-width:500px){
+
+    .title{
+        font-size:48px;
+    }
+
+    button{
+        width:80%;
+    }
+
+    #city{
+        height:30%;
+    }
+
+    #cardsArea{
+        height:70%;
+    }
+
+    .card{
+        width:72px;
+        height:72px;
+        font-size:32px;
+    }
+
+    #cards{
+        gap:8px;
+        padding:10px;
+    }
+
+    #message{
+        font-size:24px;
+    }
 }
 
 </style>
@@ -133,17 +410,31 @@ button{
 
 <body>
 
+<!-- ===== MENU ===== -->
+
 <div id="menu">
 
-    <h1>🌱 GREEN CITY</h1>
+    <h1 class="title">🌱 GREEN CITY</h1>
 
-    <button onclick="startGame('easy')">Easy</button>
+    <button onclick="startGame('easy')">
+        Easy
+    </button>
 
-    <button onclick="startGame('medium')">Medium</button>
+    <button onclick="startGame('medium')">
+        Medium
+    </button>
 
-    <button onclick="startGame('hard')">Hard</button>
+    <button onclick="startGame('hard')">
+        Hard
+    </button>
+
+    <button onclick="openGuide()">
+        📖 Hướng dẫn
+    </button>
 
 </div>
+
+<!-- ===== GAME ===== -->
 
 <div id="game">
 
@@ -153,9 +444,13 @@ button{
 
         <div id="top">
 
-            <button onclick="backMenu()">🏠 Menu</button>
+            <button onclick="backMenu()">
+                🏠 Menu
+            </button>
 
-            <div id="score">🌱 0</div>
+            <div id="score">
+                🌱 0
+            </div>
 
         </div>
 
@@ -167,12 +462,35 @@ button{
 
 </div>
 
+<!-- ===== GUIDE ===== -->
+
+<div id="guidePage">
+
+    <div id="guideBox">
+
+        <h1>📖 Cách Chơi</h1>
+
+        <p>🎴 Lật 2 thẻ giống nhau để ghép cặp</p>
+        <p>🌱 Ghép đúng sẽ xanh hóa thành phố</p>
+        <p>🏆 Xanh toàn bộ để chiến thắng</p>
+        <p>⚡ Càng khó càng nhiều thẻ</p>
+
+        <button onclick="closeGuide()">
+            ⬅ Quay lại
+        </button>
+
+    </div>
+
+</div>
+
 <script>
+
+/* ===== ICONS ===== */
 
 const icons=[
 "🌳","🌻","🍀","🌵","🌴",
 "🌷","🌲","🌺","🍃","🌼",
-"🌱","🪴"
+"🌱","🪴","🌹","☘️","🍂"
 ];
 
 let first=null;
@@ -183,10 +501,19 @@ let matched=0;
 let totalPairs=0;
 let greenIndex=0;
 
+/* ===== START GAME ===== */
+
 function startGame(level){
 
+    const game=document.getElementById("game");
+
     document.getElementById("menu").style.display="none";
-    document.getElementById("game").style.display="flex";
+
+    game.style.display="flex";
+
+    requestAnimationFrame(()=>{
+        game.classList.add("show");
+    });
 
     let pairs;
     let cityCount;
@@ -215,9 +542,13 @@ function startGame(level){
     greenIndex=0;
 
     createCity(cityCount);
-
     createCards(pairs,columns);
+
+    document.getElementById("message").innerHTML="";
+    document.getElementById("score").innerHTML="🌱 0";
 }
+
+/* ===== CREATE CITY ===== */
 
 function createCity(count){
 
@@ -239,6 +570,8 @@ function createCity(count){
         city.appendChild(tile);
     }
 }
+
+/* ===== CREATE CARDS ===== */
 
 function createCards(pairs,columns){
 
@@ -271,12 +604,12 @@ function createCards(pairs,columns){
     });
 }
 
+/* ===== FLIP ===== */
+
 function flip(card){
 
     if(lock) return;
-
     if(card===first) return;
-
     if(card.classList.contains("done")) return;
 
     card.classList.add("open");
@@ -286,7 +619,6 @@ function flip(card){
     if(!first){
 
         first=card;
-
         return;
     }
 
@@ -297,7 +629,6 @@ function flip(card){
     if(first.dataset.icon===second.dataset.icon){
 
         first.classList.add("done");
-
         second.classList.add("done");
 
         matched++;
@@ -318,11 +649,9 @@ function flip(card){
         setTimeout(()=>{
 
             first.classList.remove("open");
-
             second.classList.remove("open");
 
             first.innerHTML="?";
-
             second.innerHTML="?";
 
             reset();
@@ -331,15 +660,16 @@ function flip(card){
     }
 }
 
+/* ===== GREEN ===== */
+
 function greenTiles(){
 
     const tiles=document.querySelectorAll(".tile");
 
-    let remain =
-    tiles.length - greenIndex;
+    let remain=tiles.length-greenIndex;
 
-    let amount =
-    Math.ceil(remain / (totalPairs - matched + 1));
+    let amount=
+    Math.ceil(remain/(totalPairs-matched+1));
 
     for(let i=0;i<amount;i++){
 
@@ -348,7 +678,6 @@ function greenTiles(){
             const tile=tiles[greenIndex];
 
             tile.classList.remove("gray");
-
             tile.classList.add("green");
 
             const tree=document.createElement("div");
@@ -360,7 +689,6 @@ function greenTiles(){
             [Math.floor(Math.random()*3)];
 
             tree.style.left=Math.random()*60+"%";
-
             tree.style.top=Math.random()*60+"%";
 
             tile.appendChild(tree);
@@ -372,11 +700,10 @@ function greenTiles(){
                 flower.className="flower";
 
                 flower.innerHTML=
-                ["🌼","🌸","🌻"]
+                ["🌸","🌼","🌻"]
                 [Math.floor(Math.random()*3)];
 
                 flower.style.left=Math.random()*80+"%";
-
                 flower.style.top=Math.random()*80+"%";
 
                 tile.appendChild(flower);
@@ -389,22 +716,41 @@ function greenTiles(){
     document.getElementById("score")
     .innerHTML="🌱 "+greenIndex;
 }
+
+/* ===== RESET ===== */
+
 function reset(){
 
     first=null;
-
     second=null;
-
     lock=false;
 }
 
+/* ===== MENU ===== */
+
 function backMenu(){
 
+    const game=document.getElementById("game");
+
+    game.classList.remove("show");
+
+    game.style.display="none";
+
     document.getElementById("menu").style.display="flex";
+}
 
-    document.getElementById("game").style.display="none";
+/* ===== GUIDE ===== */
 
-    document.getElementById("message").innerHTML="";
+function openGuide(){
+
+    document.getElementById("guidePage")
+    .style.display="flex";
+}
+
+function closeGuide(){
+
+    document.getElementById("guidePage")
+    .style.display="none";
 }
 
 </script>
