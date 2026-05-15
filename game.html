@@ -1,0 +1,924 @@
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>🌱 Green City</title>
+
+    <style>
+
+    /* ===== RESET ===== */
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    html,body{
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        font-family:'Segoe UI',sans-serif;
+        background:linear-gradient(to bottom,#dffff0,#f4fff4);
+    }
+
+    /* ===== MENU ===== */
+
+    #menu{
+        position:absolute;
+        inset:0;
+
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+
+        gap:18px;
+
+        animation:menuOpen .8s ease;
+    }
+
+    @keyframes menuOpen{
+        from{
+            opacity:0;
+            transform:translateY(50px);
+        }
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    .title{
+        font-size:clamp(45px,8vw,90px);
+        color:#1e8e31;
+
+        text-shadow:
+        0 10px 20px rgba(0,0,0,.15);
+
+        margin-bottom:20px;
+    }
+
+    /* ===== BUTTON ===== */
+
+    button{
+        border:none;
+        outline:none;
+
+        padding:15px 35px;
+
+        border-radius:18px;
+
+        font-size:clamp(17px,2vw,28px);
+
+        cursor:pointer;
+
+        color:white;
+
+        background:
+        linear-gradient(
+            135deg,
+            #5ce15c,
+            #279327
+        );
+
+        box-shadow:
+        0 10px 20px rgba(0,0,0,.15);
+
+        transition:.25s;
+    }
+
+    button:hover{
+        transform:translateY(-3px) scale(1.03);
+    }
+
+    /* ===== GAME ===== */
+
+    #game{
+        position:absolute;
+        inset:0;
+
+        display:none;
+
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    #game.show{
+        display:flex;
+        animation:gameOpen .5s ease forwards;
+    }
+
+    @keyframes gameOpen{
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    /* ===== CITY ===== */
+
+    #city{
+        width:40%;
+        display:grid;
+        background:#98e98f;
+    }
+
+    .tile{
+        position:relative;
+        overflow:hidden;
+
+        border:1px solid rgba(255,255,255,.3);
+    }
+
+    .tile.gray{
+        background:#777;
+    }
+
+    .tile.green{
+        background:
+        linear-gradient(
+            to bottom,
+            #7eff72,
+            #47c947
+        );
+
+        animation:greenGrow .4s ease;
+    }
+
+    @keyframes greenGrow{
+        from{
+            opacity:0;
+            transform:scale(.8);
+        }
+        to{
+            opacity:1;
+            transform:scale(1);
+        }
+    }
+
+    .tree{
+        position:absolute;
+        font-size:clamp(18px,2vw,35px);
+    }
+
+    .flower{
+        position:absolute;
+        font-size:clamp(10px,1vw,18px);
+    }
+
+    /* ===== RIGHT ===== */
+
+    #cardsArea{
+        width:60%;
+        background:#f4fff4;
+
+        display:flex;
+        flex-direction:column;
+
+        align-items:center;
+
+        overflow:auto;
+    }
+
+    /* ===== TOP ===== */
+
+    #top{
+        width:100%;
+
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        padding:18px 20px;
+    }
+
+    #score{
+        font-size:clamp(20px,2vw,34px);
+        font-weight:bold;
+        color:#1a8e1a;
+    }
+
+    /* ===== MESSAGE ===== */
+
+    #message{
+        font-size:clamp(24px,3vw,48px);
+        color:#199919;
+        font-weight:bold;
+
+        margin:10px;
+        text-align:center;
+    }
+
+    /* ===== CARDS ===== */
+
+    #cards{
+        width:100%;
+
+        display:grid;
+
+        justify-items:center;
+
+        gap:16px;
+
+        padding:20px;
+    }
+
+    /* ===== CARD ===== */
+
+    .card{
+        width:min(18vw,125px);
+        height:min(18vw,125px);
+
+        min-width:70px;
+        min-height:70px;
+
+        border-radius:22px;
+
+        background:
+        linear-gradient(
+            135deg,
+            #30445a,
+            #1d3045
+        );
+
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
+        color:white;
+
+        font-size:clamp(30px,4vw,60px);
+
+        cursor:pointer;
+
+        transition:.25s;
+
+        box-shadow:
+        0 10px 20px rgba(0,0,0,.18);
+    }
+
+    .card:hover{
+        transform:translateY(-4px);
+    }
+
+    .card.open{
+        background:white;
+        color:black;
+
+        transform:rotateY(180deg);
+    }
+
+    .card.done{
+        background:
+        linear-gradient(
+            135deg,
+            #7eff7e,
+            #3db63d
+        );
+
+        color:white;
+    }
+
+    /* ===== POPUP ===== */
+
+    .popup{
+        position:absolute;
+        inset:0;
+
+        background:rgba(0,0,0,.45);
+
+        display:none;
+
+        justify-content:center;
+        align-items:center;
+
+        z-index:999;
+    }
+
+    .popupBox{
+        width:min(90%,700px);
+
+        background:white;
+
+        padding:35px;
+
+        border-radius:28px;
+
+        text-align:center;
+
+        animation:popupOpen .4s ease;
+
+        box-shadow:
+        0 20px 40px rgba(0,0,0,.2);
+    }
+
+    @keyframes popupOpen{
+        from{
+            opacity:0;
+            transform:scale(.8);
+        }
+        to{
+            opacity:1;
+            transform:scale(1);
+        }
+    }
+
+    .popupBox h1{
+        color:#1e8e31;
+        margin-bottom:20px;
+    }
+
+    .popupBox p{
+        margin:14px 0;
+        font-size:20px;
+        color:#444;
+        line-height:1.6;
+    }
+
+    /* ===== STARS ===== */
+
+    #stars{
+        margin:25px 0;
+    }
+
+    #stars span{
+        font-size:55px;
+        cursor:pointer;
+
+        filter:grayscale(100%);
+
+        transition:.25s;
+    }
+
+    #stars span.active{
+        filter:grayscale(0%);
+        transform:scale(1.15);
+    }
+
+    #submitRate:disabled{
+        opacity:.5;
+        cursor:not-allowed;
+    }
+
+    /* ===== MOBILE ===== */
+
+    @media(max-width:900px){
+
+        #game{
+            flex-direction:column;
+        }
+
+        #city{
+            width:100%;
+            height:35%;
+        }
+
+        #cardsArea{
+            width:100%;
+            height:65%;
+        }
+
+        .card{
+            width:min(20vw,95px);
+            height:min(20vw,95px);
+        }
+    }
+
+    @media(max-width:500px){
+
+        .title{
+            font-size:50px;
+        }
+
+        button{
+            width:80%;
+        }
+
+        #city{
+            height:30%;
+        }
+
+        #cardsArea{
+            height:70%;
+        }
+
+        .card{
+            width:72px;
+            height:72px;
+
+            font-size:32px;
+        }
+
+        #cards{
+            gap:8px;
+            padding:10px;
+        }
+
+        #message{
+            font-size:24px;
+        }
+    }
+
+    </style>
+    </head>
+
+    <body>
+
+    <!-- ===== MENU ===== -->
+
+    <div id="menu">
+
+        <h1 class="title">🌱 GREEN CITY</h1>
+
+        <button onclick="startGame('easy')">
+            Easy
+        </button>
+
+        <button onclick="startGame('medium')">
+            Medium
+        </button>
+
+        <button onclick="startGame('hard')">
+            Hard
+        </button>
+
+        <button onclick="openPopup('guidePage')">
+            📖 Hướng dẫn chơi
+        </button>
+
+        <button onclick="openPopup('meaningPage')">
+            🏙️ Ý nghĩa
+        </button>
+
+    </div>
+
+    <!-- ===== GAME ===== -->
+
+    <div id="game">
+
+        <div id="city"></div>
+
+        <div id="cardsArea">
+
+            <div id="top">
+
+                <button onclick="backMenu()">
+                    🏠 Menu
+                </button>
+
+                <div id="score">
+                    🌱 0
+                </div>
+
+            </div>
+
+            <div id="message"></div>
+
+            <div id="cards"></div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== GUIDE ===== -->
+
+    <div id="guidePage" class="popup">
+
+        <div class="popupBox">
+
+            <h1>📖 Cách Chơi</h1>
+
+            <p>🎴 Lật 2 thẻ giống nhau để ghép cặp</p>
+
+            <p>🌱 Ghép đúng sẽ biến bê tông thành cây xanh</p>
+
+            <p>🏆 Xanh hóa toàn bộ thành phố để chiến thắng</p>
+
+            <button onclick="closePopup('guidePage')">
+                ⬅ Quay lại
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===== MEANING ===== -->
+
+    <div id="meaningPage" class="popup">
+
+        <div class="popupBox">
+
+            <h1>🏙️ Ý Nghĩa Bê Tông Hóa</h1>
+
+            <p>
+                Bê tông hóa làm giảm cây xanh,
+                tăng nhiệt độ và ô nhiễm môi trường.
+            </p>
+
+            <p>
+                🌱 Green City giúp nâng cao ý thức
+                bảo vệ môi trường và tăng mảng xanh.
+            </p>
+
+            <button onclick="closePopup('meaningPage')">
+                ⬅ Quay lại
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===== RATING ===== -->
+
+    <div id="ratingPage" class="popup">
+
+        <div class="popupBox">
+
+            <h1>⭐ Đánh Giá Game</h1>
+
+            <p>Hãy đánh giá chế độ vừa chơi</p>
+
+            <div id="stars">
+
+                <span onclick="rateGame(1)">⭐</span>
+                <span onclick="rateGame(2)">⭐</span>
+                <span onclick="rateGame(3)">⭐</span>
+                <span onclick="rateGame(4)">⭐</span>
+                <span onclick="rateGame(5)">⭐</span>
+
+            </div>
+
+            <p id="rateText">
+                Hãy chọn số sao
+            </p>
+
+            <button
+            id="submitRate"
+            onclick="submitRate()"
+            disabled>
+
+                Gửi đánh giá
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+    /* ===== ICONS ===== */
+
+    const icons=[
+    "🌳","🌻","🍀","🌵","🌴",
+    "🌷","🌲","🌺","🍃","🌼",
+    "🌱","🪴","🌹","☘️","🍂"
+    ];
+
+    let first=null;
+    let second=null;
+    let lock=false;
+
+    let matched=0;
+    let totalPairs=0;
+    let greenIndex=0;
+
+    let selectedRate=0;
+
+    /* ===== START ===== */
+
+    function startGame(level){
+
+        const game=document.getElementById("game");
+
+        document.getElementById("menu")
+        .style.display="none";
+
+        game.style.display="flex";
+
+        requestAnimationFrame(()=>{
+            game.classList.add("show");
+        });
+
+        let pairs;
+        let cityCount;
+        let columns;
+
+        if(level==="easy"){
+            pairs=6;
+            cityCount=25;
+            columns=3;
+        }
+
+        else if(level==="medium"){
+            pairs=10;
+            cityCount=49;
+            columns=4;
+        }
+
+        else{
+            pairs=15;
+            cityCount=81;
+            columns=5;
+        }
+
+        totalPairs=pairs;
+        matched=0;
+        greenIndex=0;
+
+        createCity(cityCount);
+        createCards(pairs,columns);
+
+        document.getElementById("score")
+        .innerHTML="🌱 0";
+
+        document.getElementById("message")
+        .innerHTML="";
+    }
+
+    /* ===== CITY ===== */
+
+    function createCity(count){
+
+        const city=document.getElementById("city");
+
+        city.innerHTML="";
+
+        const size=Math.sqrt(count);
+
+        city.style.gridTemplateColumns=
+        `repeat(${size},1fr)`;
+
+        for(let i=0;i<count;i++){
+
+            const tile=document.createElement("div");
+
+            tile.className="tile gray";
+
+            city.appendChild(tile);
+        }
+    }
+
+    /* ===== CARDS ===== */
+
+    function createCards(pairs,columns){
+
+        const cards=document.getElementById("cards");
+
+        cards.innerHTML="";
+
+        cards.style.gridTemplateColumns=
+        `repeat(${columns},1fr)`;
+
+        const chosen=icons.slice(0,pairs);
+
+        const values=[...chosen,...chosen]
+        .sort(()=>Math.random()-0.5);
+
+        values.forEach(icon=>{
+
+            const card=document.createElement("div");
+
+            card.className="card";
+
+            card.dataset.icon=icon;
+
+            card.innerHTML="?";
+
+            card.onclick=()=>flip(card);
+
+            cards.appendChild(card);
+
+        });
+    }
+
+    /* ===== FLIP ===== */
+
+    function flip(card){
+
+        if(lock) return;
+        if(card===first) return;
+        if(card.classList.contains("done")) return;
+
+        card.classList.add("open");
+
+        card.innerHTML=card.dataset.icon;
+
+        if(!first){
+
+            first=card;
+            return;
+        }
+
+        second=card;
+
+        lock=true;
+
+        if(first.dataset.icon===second.dataset.icon){
+
+            first.classList.add("done");
+            second.classList.add("done");
+
+            matched++;
+
+            greenTiles();
+
+            reset();
+
+            if(matched===totalPairs){
+
+                document.getElementById("message")
+                .innerHTML=
+                "🎉 Thành phố đã xanh hóa!";
+
+                setTimeout(()=>{
+
+                    openPopup("ratingPage");
+
+                },1000);
+            }
+        }
+
+        else{
+
+            setTimeout(()=>{
+
+                first.classList.remove("open");
+                second.classList.remove("open");
+
+                first.innerHTML="?";
+                second.innerHTML="?";
+
+                reset();
+
+            },700);
+        }
+    }
+
+    /* ===== GREEN ===== */
+
+    function greenTiles(){
+
+        const tiles=document.querySelectorAll(".tile");
+
+        let remain=
+        tiles.length-greenIndex;
+
+        let amount=
+        Math.ceil(remain/(totalPairs-matched+1));
+
+        for(let i=0;i<amount;i++){
+
+            if(greenIndex<tiles.length){
+
+                const tile=tiles[greenIndex];
+
+                tile.classList.remove("gray");
+                tile.classList.add("green");
+
+                const tree=document.createElement("div");
+
+                tree.className="tree";
+
+                tree.innerHTML=
+                ["🌳","🌲","🌴"]
+                [Math.floor(Math.random()*3)];
+
+                tree.style.left=
+                Math.random()*60+"%";
+
+                tree.style.top=
+                Math.random()*60+"%";
+
+                tile.appendChild(tree);
+
+                for(let j=0;j<4;j++){
+
+                    const flower=
+                    document.createElement("div");
+
+                    flower.className="flower";
+
+                    flower.innerHTML=
+                    ["🌸","🌼","🌻"]
+                    [Math.floor(Math.random()*3)];
+
+                    flower.style.left=
+                    Math.random()*80+"%";
+
+                    flower.style.top=
+                    Math.random()*80+"%";
+
+                    tile.appendChild(flower);
+                }
+
+                greenIndex++;
+            }
+        }
+
+        document.getElementById("score")
+        .innerHTML="🌱 "+greenIndex;
+    }
+
+    /* ===== RESET ===== */
+
+    function reset(){
+
+        first=null;
+        second=null;
+        lock=false;
+    }
+
+    /* ===== MENU ===== */
+
+    function backMenu(){
+
+        const game=document.getElementById("game");
+
+        game.classList.remove("show");
+
+        game.style.display="none";
+
+        document.getElementById("menu")
+        .style.display="flex";
+    }
+
+    /* ===== POPUP ===== */
+
+    function openPopup(id){
+
+        document.getElementById(id)
+        .style.display="flex";
+    }
+
+    function closePopup(id){
+
+        document.getElementById(id)
+        .style.display="none";
+    }
+
+    /* ===== RATING ===== */
+
+    function rateGame(star){
+
+        selectedRate=star;
+
+        const stars=
+        document.querySelectorAll("#stars span");
+
+        stars.forEach((s,index)=>{
+
+            if(index<star){
+                s.classList.add("active");
+            }
+
+            else{
+                s.classList.remove("active");
+            }
+        });
+
+        const text=
+        document.getElementById("rateText");
+
+        if(star===1){
+            text.innerHTML="😢 Chưa hay";
+        }
+
+        else if(star===2){
+            text.innerHTML="🙂 Tạm ổn";
+        }
+
+        else if(star===3){
+            text.innerHTML="😊 Khá vui";
+        }
+
+        else if(star===4){
+            text.innerHTML="😍 Rất hay";
+        }
+
+        else{
+            text.innerHTML="🔥 Tuyệt vời!";
+        }
+
+        document.getElementById("submitRate")
+        .disabled=false;
+    }
+
+    function submitRate(){
+
+        closePopup("ratingPage");
+
+        alert(
+            "🎉 Cảm ơn bạn đã đánh giá "
+            + selectedRate +
+            " sao!"
+        );
+    }
+
+    </script>
+
+    </body>
+    </html>
