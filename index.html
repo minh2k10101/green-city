@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🌱 Green City Ultimate</title>
+<title>🌱 Green City</title>
 
 <style>
 
@@ -20,8 +20,17 @@ html,body{
     width:100%;
     height:100%;
     overflow:hidden;
+
     font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(to bottom,#dffff0,#f4fff4);
+
+    background:
+    linear-gradient(
+        to bottom,
+        #dffff0,
+        #f4fff4
+    );
+
+    transition:1s;
 }
 
 /* ===== PARTICLES ===== */
@@ -29,8 +38,6 @@ html,body{
 #particles{
     position:fixed;
     inset:0;
-    width:100%;
-    height:100%;
     z-index:-1;
 }
 
@@ -42,6 +49,7 @@ html,body{
 
     display:flex;
     flex-direction:column;
+
     justify-content:center;
     align-items:center;
 
@@ -51,10 +59,12 @@ html,body{
 }
 
 @keyframes menuOpen{
+
     from{
         opacity:0;
         transform:translateY(50px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
@@ -62,7 +72,10 @@ html,body{
 }
 
 .title{
-    font-size:clamp(45px,8vw,90px);
+
+    font-size:
+    clamp(45px,8vw,90px);
+
     color:#1e8e31;
 
     text-shadow:
@@ -74,6 +87,7 @@ html,body{
 /* ===== BUTTON ===== */
 
 button{
+
     border:none;
     outline:none;
 
@@ -81,7 +95,8 @@ button{
 
     border-radius:18px;
 
-    font-size:clamp(17px,2vw,28px);
+    font-size:
+    clamp(17px,2vw,28px);
 
     cursor:pointer;
 
@@ -101,46 +116,48 @@ button{
 }
 
 button:hover{
-    transform:translateY(-3px) scale(1.03);
+
+    transform:
+    translateY(-3px)
+    scale(1.03);
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 /* ===== GAME ===== */
 
 #game{
+
     position:absolute;
     inset:0;
 
     display:none;
-
-    opacity:0;
-    transform:translateY(50px);
-}
-
-#game.show{
-    display:flex;
-    animation:gameOpen .5s ease forwards;
-}
-
-@keyframes gameOpen{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
 /* ===== CITY ===== */
 
 #city{
+
     width:40%;
+
     display:grid;
+
     background:#98e98f;
 }
 
 .tile{
+
     position:relative;
+
     overflow:hidden;
 
-    border:1px solid rgba(255,255,255,.3);
+    border:
+    1px solid rgba(255,255,255,.3);
 }
 
 .tile.gray{
@@ -148,6 +165,7 @@ button:hover{
 }
 
 .tile.green{
+
     background:
     linear-gradient(
         to bottom,
@@ -155,14 +173,17 @@ button:hover{
         #47c947
     );
 
-    animation:greenGrow .4s ease;
+    animation:
+    greenGrow .5s ease;
 }
 
 @keyframes greenGrow{
+
     from{
         opacity:0;
         transform:scale(.8);
     }
+
     to{
         opacity:1;
         transform:scale(1);
@@ -170,32 +191,39 @@ button:hover{
 }
 
 .tree{
-    position:absolute;
-    font-size:clamp(18px,2vw,35px);
 
-    animation:treeGrow .6s ease;
+    position:absolute;
+
+    font-size:
+    clamp(18px,2vw,35px);
+
+    animation:
+    treeGrow .6s ease;
 }
 
 @keyframes treeGrow{
+
     from{
-        transform:scale(0) rotate(-20deg);
+        transform:scale(0);
         opacity:0;
     }
+
     to{
-        transform:scale(1) rotate(0);
+        transform:scale(1);
         opacity:1;
     }
 }
 
 .flower{
     position:absolute;
-    font-size:clamp(10px,1vw,18px);
 }
 
 /* ===== RIGHT ===== */
 
 #cardsArea{
+
     width:60%;
+
     background:#f4fff4;
 
     display:flex;
@@ -209,43 +237,112 @@ button:hover{
 /* ===== TOP ===== */
 
 #top{
+
     width:100%;
 
     display:flex;
+
     justify-content:space-between;
     align-items:center;
 
     padding:18px 20px;
 }
 
-#score{
-    font-size:clamp(20px,2vw,34px);
+#score,
+#timer,
+#highScore{
+
+    font-size:
+    clamp(18px,2vw,30px);
+
     font-weight:bold;
+
     color:#1a8e1a;
 }
 
-#timer,
-#highScore{
-    font-size:clamp(16px,2vw,24px);
+/* ===== ENVIRONMENT ===== */
+
+#environment{
+
+    width:90%;
+
+    display:flex;
+
+    justify-content:space-around;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:10px;
+}
+
+#environment div{
+
+    background:white;
+
+    padding:12px 18px;
+
+    border-radius:16px;
+
     font-weight:bold;
-    color:#1a7a1a;
-    margin-top:5px;
+
+    color:#166d16;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.1);
 }
 
 /* ===== MESSAGE ===== */
 
 #message{
-    font-size:clamp(24px,3vw,48px);
+
+    font-size:
+    clamp(24px,3vw,48px);
+
     color:#199919;
+
     font-weight:bold;
 
     margin:10px;
+
     text-align:center;
+}
+
+/* ===== FACT ===== */
+
+#factBox{
+
+    width:90%;
+
+    margin-top:15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffffff,
+        #efffec
+    );
+
+    padding:16px;
+
+    border-radius:20px;
+
+    font-size:18px;
+
+    text-align:center;
+
+    color:#2b6b2b;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.08);
 }
 
 /* ===== CARDS ===== */
 
 #cards{
+
     width:100%;
 
     display:grid;
@@ -257,9 +354,8 @@ button:hover{
     padding:20px;
 }
 
-/* ===== CARD ===== */
-
 .card{
+
     width:min(18vw,125px);
     height:min(18vw,125px);
 
@@ -276,12 +372,14 @@ button:hover{
     );
 
     display:flex;
+
     justify-content:center;
     align-items:center;
 
     color:white;
 
-    font-size:clamp(30px,4vw,60px);
+    font-size:
+    clamp(30px,4vw,60px);
 
     cursor:pointer;
 
@@ -289,36 +387,23 @@ button:hover{
 
     box-shadow:
     0 10px 20px rgba(0,0,0,.18);
-
-    transform-style:preserve-3d;
 }
 
 .card:hover{
     transform:translateY(-4px);
-
-    box-shadow:
-    0 15px 30px rgba(0,0,0,.25);
-
-    filter:brightness(1.08);
 }
 
 .card.open{
+
     background:white;
+
     color:black;
 
-    animation:flipAnim .4s ease;
-}
-
-@keyframes flipAnim{
-    from{
-        transform:rotateY(0deg);
-    }
-    to{
-        transform:rotateY(180deg);
-    }
+    transform:rotateY(180deg);
 }
 
 .card.done{
+
     background:
     linear-gradient(
         135deg,
@@ -332,7 +417,8 @@ button:hover{
 /* ===== POPUP ===== */
 
 .popup{
-    position:absolute;
+
+    position:fixed;
     inset:0;
 
     background:rgba(0,0,0,.45);
@@ -346,9 +432,15 @@ button:hover{
 }
 
 .popupBox{
+
     width:min(90%,700px);
 
-    background:white;
+    background:
+    linear-gradient(
+        135deg,
+        #ffffff,
+        #f1fff1
+    );
 
     padding:35px;
 
@@ -358,15 +450,19 @@ button:hover{
 
     animation:popupOpen .4s ease;
 
+    border:4px solid #7eff7e;
+
     box-shadow:
     0 20px 40px rgba(0,0,0,.2);
 }
 
 @keyframes popupOpen{
+
     from{
         opacity:0;
         transform:scale(.8);
     }
+
     to{
         opacity:1;
         transform:scale(1);
@@ -374,15 +470,29 @@ button:hover{
 }
 
 .popupBox h1{
+
     color:#1e8e31;
+
     margin-bottom:20px;
+
+    font-size:40px;
 }
 
 .popupBox p{
+
     margin:14px 0;
+
     font-size:20px;
+
     color:#444;
+
     line-height:1.6;
+
+    background:white;
+
+    padding:12px;
+
+    border-radius:14px;
 }
 
 /* ===== STARS ===== */
@@ -392,50 +502,23 @@ button:hover{
 }
 
 #stars span{
+
     font-size:55px;
+
     cursor:pointer;
 
     filter:grayscale(100%);
+
+    display: inline-block;
 
     transition:.25s;
 }
 
 #stars span.active{
+
     filter:grayscale(0%);
+
     transform:scale(1.15);
-}
-
-#submitRate:disabled{
-    opacity:.5;
-    cursor:not-allowed;
-}
-
-/* ===== WIN ===== */
-
-.winFlash{
-    animation:flash 1s infinite;
-}
-
-@keyframes flash{
-    0%{
-        filter:brightness(1);
-    }
-    50%{
-        filter:brightness(1.15);
-    }
-    100%{
-        filter:brightness(1);
-    }
-}
-
-/* ===== SHAKE ===== */
-
-@keyframes shake{
-    0%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    50%{transform:translateX(5px);}
-    75%{transform:translateX(-5px);}
-    100%{transform:translateX(0);}
 }
 
 /* ===== MOBILE ===== */
@@ -455,46 +538,6 @@ button:hover{
         width:100%;
         height:65%;
     }
-
-    .card{
-        width:min(20vw,95px);
-        height:min(20vw,95px);
-    }
-}
-
-@media(max-width:500px){
-
-    .title{
-        font-size:50px;
-    }
-
-    button{
-        width:80%;
-    }
-
-    #city{
-        height:30%;
-    }
-
-    #cardsArea{
-        height:70%;
-    }
-
-    .card{
-        width:72px;
-        height:72px;
-
-        font-size:32px;
-    }
-
-    #cards{
-        gap:8px;
-        padding:10px;
-    }
-
-    #message{
-        font-size:24px;
-    }
 }
 
 </style>
@@ -504,6 +547,8 @@ button:hover{
 
 <canvas id="particles"></canvas>
 
+<!-- ===== AUDIO ===== -->
+
 <audio id="flipSound"
 src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3">
 </audio>
@@ -512,16 +557,13 @@ src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3">
 src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
 </audio>
 
-<audio id="bgMusic"
-loop
-src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
-</audio>
-
 <!-- ===== MENU ===== -->
 
 <div id="menu">
 
-    <h1 class="title">🌱 GREEN CITY</h1>
+    <h1 class="title">
+        🌱 GREEN CITY
+    </h1>
 
     <button onclick="startGame('easy')">
         Easy
@@ -536,11 +578,11 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
     </button>
 
     <button onclick="openPopup('guidePage')">
-        📖 Hướng dẫn chơi
+        📖 Hướng dẫn
     </button>
 
     <button onclick="openPopup('meaningPage')">
-        🏙️ Ý nghĩa
+        🌍 Ý nghĩa
     </button>
 
 </div>
@@ -577,7 +619,27 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
 
         </div>
 
+        <div id="environment">
+
+            <div id="temp">
+                🌡️ 42°C
+            </div>
+
+            <div id="pollution">
+                🌫️ Ô nhiễm: 100%
+            </div>
+
+            <div id="comboText">
+                🔥 Combo: 0
+            </div>
+
+        </div>
+
         <div id="message"></div>
+
+        <div id="factBox">
+            🌱 Hãy phủ xanh thành phố!
+        </div>
 
         <div id="cards"></div>
 
@@ -591,13 +653,27 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
 
     <div class="popupBox">
 
-        <h1>📖 Cách Chơi</h1>
+        <h1>📖 HƯỚNG DẪN CHƠI</h1>
 
-        <p>🎴 Lật 2 thẻ giống nhau để ghép cặp</p>
+        <p>
+            🎴 Lật 2 thẻ giống nhau để ghép cặp.
+        </p>
 
-        <p>🌱 Ghép đúng sẽ biến bê tông thành cây xanh</p>
+        <p>
+            🌱 Ghép đúng sẽ phủ xanh thành phố.
+        </p>
 
-        <p>🏆 Xanh hóa toàn bộ thành phố để chiến thắng</p>
+        <p>
+            🌡️ Ghép sai sẽ làm nhiệt độ tăng.
+        </p>
+
+        <p>
+            🌫️ Thành phố sẽ ô nhiễm hơn nếu bạn sai nhiều.
+        </p>
+
+        <p>
+            🏆 Hãy phủ xanh toàn bộ thành phố!
+        </p>
 
         <button onclick="closePopup('guidePage')">
             ⬅ Quay lại
@@ -613,16 +689,26 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
 
     <div class="popupBox">
 
-        <h1>🏙️ Ý Nghĩa Bê Tông Hóa</h1>
+        <h1>🌍 Ý NGHĨA GAME</h1>
 
         <p>
-            Bê tông hóa làm giảm cây xanh,
-            tăng nhiệt độ và ô nhiễm môi trường.
+            🏢 Bê tông hóa làm giảm cây xanh trong thành phố.
         </p>
 
         <p>
-            🌱 Green City giúp nâng cao ý thức
-            bảo vệ môi trường và tăng mảng xanh.
+            🌡️ Điều này gây tăng nhiệt độ đô thị.
+        </p>
+
+        <p>
+            🌫️ Không khí trở nên ô nhiễm hơn.
+        </p>
+
+        <p>
+            🌧️ Thành phố thiếu cây xanh dễ bị ngập lụt.
+        </p>
+
+        <p>
+            🌱 Green City giúp nâng cao nhận thức bảo vệ môi trường.
         </p>
 
         <button onclick="closePopup('meaningPage')">
@@ -639,9 +725,9 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
 
     <div class="popupBox">
 
-        <h1>⭐ Đánh Giá Game</h1>
+        <h1>⭐ Đánh Giá</h1>
 
-        <p>Hãy đánh giá chế độ vừa chơi</p>
+        <p>Hãy đánh giá game</p>
 
         <div id="stars">
 
@@ -672,44 +758,13 @@ src="https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3">
 
 <script>
 
-/* ===== ICONS ===== */
-
-const icons=[
-"🌳","🌻","🍀","🌵","🌴",
-"🌷","🌲","🌺","🍃","🌼",
-"🌱","🪴","🌹","☘️","🍂"
-];
-
-let first=null;
-let second=null;
-let lock=false;
-
-let matched=0;
-let totalPairs=0;
-let greenIndex=0;
-
-let selectedRate=0;
-
-/* ===== TIMER ===== */
-
-let time=0;
-let timerInterval;
-
-/* ===== HIGH SCORE ===== */
-
-let bestScore=
-localStorage.getItem("greenCityBest") || 0;
-
-document.getElementById("highScore")
-.innerHTML=
-"🏆 Best: "+bestScore+"s";
-
 /* ===== PARTICLES ===== */
 
 const canvas=
 document.getElementById("particles");
 
-const ctx=canvas.getContext("2d");
+const ctx=
+canvas.getContext("2d");
 
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
@@ -719,6 +774,7 @@ const particles=[];
 for(let i=0;i<70;i++){
 
     particles.push({
+
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
         r:Math.random()*4+1,
@@ -766,52 +822,94 @@ function drawParticles(){
 
 drawParticles();
 
+/* ===== ICONS ===== */
+
+const icons=[
+"🌳","🌻","🍀","🌵","🌴",
+"🌷","🌲","🌺","🍃","🌼",
+"🌱","🪴","🌹","☘️","🍂"
+];
+
+const facts=[
+
+"🌳 Một cây trưởng thành có thể hấp thụ 22kg CO₂ mỗi năm.",
+
+"🌡️ Bê tông hấp thụ nhiệt mạnh hơn cây xanh.",
+
+"🌿 Không gian xanh giúp giảm ô nhiễm không khí.",
+
+"🌧️ Thành phố thiếu cây xanh dễ bị ngập lụt."
+
+];
+
+let first=null;
+let second=null;
+let lock=false;
+
+let matched=0;
+let totalPairs=0;
+let greenIndex=0;
+
+let selectedRate=0;
+
+let pollution=100;
+let temperature=42;
+let combo=0;
+
+let time=0;
+let timerInterval;
+
+let bestScore=
+localStorage.getItem("greenBest") || 0;
+
 /* ===== START ===== */
 
 function startGame(level){
 
-    document.body.classList.remove(
-        "winFlash"
-    );
-
-    const game=document.getElementById("game");
-
     document.getElementById("menu")
     .style.display="none";
 
-    game.style.display="flex";
-
-    requestAnimationFrame(()=>{
-        game.classList.add("show");
-    });
+    document.getElementById("game")
+    .style.display="flex";
 
     let pairs;
     let cityCount;
     let columns;
 
     if(level==="easy"){
+
         pairs=6;
         cityCount=25;
         columns=3;
     }
 
     else if(level==="medium"){
+
         pairs=10;
         cityCount=49;
         columns=4;
     }
 
     else{
+
         pairs=15;
         cityCount=81;
         columns=5;
     }
 
     totalPairs=pairs;
+
     matched=0;
     greenIndex=0;
 
+    pollution=100;
+    temperature=42;
+    combo=0;
+
+    updateEnvironment();
+
     createCity(cityCount);
+
     createCards(pairs,columns);
 
     document.getElementById("score")
@@ -824,9 +922,6 @@ function startGame(level){
 
     time=0;
 
-    document.getElementById("timer")
-    .innerHTML="⏱️ 0s";
-
     timerInterval=setInterval(()=>{
 
         time++;
@@ -837,18 +932,17 @@ function startGame(level){
 
     },1000);
 
-    const bgMusic=
-    document.getElementById("bgMusic");
-
-    bgMusic.volume=0.3;
-    bgMusic.play();
+    document.getElementById("highScore")
+    .innerHTML=
+    "🏆 Best: "+bestScore+"s";
 }
 
 /* ===== CITY ===== */
 
 function createCity(count){
 
-    const city=document.getElementById("city");
+    const city=
+    document.getElementById("city");
 
     city.innerHTML="";
 
@@ -859,7 +953,8 @@ function createCity(count){
 
     for(let i=0;i<count;i++){
 
-        const tile=document.createElement("div");
+        const tile=
+        document.createElement("div");
 
         tile.className="tile gray";
 
@@ -871,21 +966,25 @@ function createCity(count){
 
 function createCards(pairs,columns){
 
-    const cards=document.getElementById("cards");
+    const cards=
+    document.getElementById("cards");
 
     cards.innerHTML="";
 
     cards.style.gridTemplateColumns=
     `repeat(${columns},1fr)`;
 
-    const chosen=icons.slice(0,pairs);
+    const chosen=
+    icons.slice(0,pairs);
 
-    const values=[...chosen,...chosen]
+    const values=
+    [...chosen,...chosen]
     .sort(()=>Math.random()-0.5);
 
     values.forEach(icon=>{
 
-        const card=document.createElement("div");
+        const card=
+        document.createElement("div");
 
         card.className="card";
 
@@ -893,10 +992,10 @@ function createCards(pairs,columns){
 
         card.innerHTML="?";
 
-        card.onclick=()=>flip(card);
+        card.onclick=
+         immortality => flip(card);
 
         cards.appendChild(card);
-
     });
 }
 
@@ -905,18 +1004,19 @@ function createCards(pairs,columns){
 function flip(card){
 
     if(lock) return;
+
     if(card===first) return;
-    if(card.classList.contains("done")) return;
+
+    if(card.classList.contains("done"))
+    return;
 
     card.classList.add("open");
 
-    card.innerHTML=card.dataset.icon;
+    card.innerHTML=
+    card.dataset.icon;
 
     document.getElementById("flipSound")
-    .currentTime=0;
-
-    document.getElementById("flipSound")
-    .play();
+    .play().catch(e => console.log("Audio play delayed"));
 
     if(!first){
 
@@ -935,6 +1035,16 @@ function flip(card){
 
         matched++;
 
+        combo++;
+
+        temperature=
+        Math.max(24,temperature-1);
+
+        pollution=
+        Math.max(0,pollution-6);
+
+        updateEnvironment();
+
         greenTiles();
 
         reset();
@@ -944,11 +1054,11 @@ function flip(card){
             clearInterval(timerInterval);
 
             document.getElementById("winSound")
-            .play();
+            .play().catch(e => console.log("Audio play delayed"));
 
-            document.body.classList.add(
-                "winFlash"
-            );
+            document.getElementById("message")
+            .innerHTML=
+            "🎉 Thành phố đã xanh hóa!";
 
             if(
                 bestScore==0 ||
@@ -958,45 +1068,39 @@ function flip(card){
                 bestScore=time;
 
                 localStorage.setItem(
-                    "greenCityBest",
+                    "greenBest",
                     bestScore
                 );
             }
-
-            document.getElementById("highScore")
-            .innerHTML=
-            "🏆 Best: "+bestScore+"s";
-
-            document.getElementById("message")
-            .innerHTML=
-            "🎉 Thành phố đã xanh hóa!";
 
             setTimeout(()=>{
 
                 openPopup("ratingPage");
 
-            },1000);
+            },1200);
         }
     }
 
     else{
 
-        first.style.animation="shake .3s";
-        second.style.animation="shake .3s";
+        combo=0;
 
-        setTimeout(()=>{
+        temperature=
+        Math.min(50,temperature+1);
 
-            first.style.animation="";
-            second.style.animation="";
+        pollution=
+        Math.min(100,pollution+3);
 
-        },300);
+        updateEnvironment();
 
         setTimeout(()=>{
 
             first.classList.remove("open");
+
             second.classList.remove("open");
 
             first.innerHTML="?";
+
             second.innerHTML="?";
 
             reset();
@@ -1009,24 +1113,31 @@ function flip(card){
 
 function greenTiles(){
 
-    const tiles=document.querySelectorAll(".tile");
+    const tiles=
+    document.querySelectorAll(".tile");
 
     let remain=
     tiles.length-greenIndex;
 
     let amount=
-    Math.ceil(remain/(totalPairs-matched+1));
+    Math.ceil(
+        remain/
+        (totalPairs-matched+1)
+    );
 
     for(let i=0;i<amount;i++){
 
         if(greenIndex<tiles.length){
 
-            const tile=tiles[greenIndex];
+            const tile=
+            tiles[greenIndex];
 
             tile.classList.remove("gray");
+
             tile.classList.add("green");
 
-            const tree=document.createElement("div");
+            const tree=
+            document.createElement("div");
 
             tree.className="tree";
 
@@ -1042,32 +1153,41 @@ function greenTiles(){
 
             tile.appendChild(tree);
 
-            for(let j=0;j<4;j++){
-
-                const flower=
-                document.createElement("div");
-
-                flower.className="flower";
-
-                flower.innerHTML=
-                ["🌸","🌼","🌻"]
-                [Math.floor(Math.random()*3)];
-
-                flower.style.left=
-                Math.random()*80+"%";
-
-                flower.style.top=
-                Math.random()*80+"%";
-
-                tile.appendChild(flower);
-            }
-
             greenIndex++;
         }
     }
 
     document.getElementById("score")
-    .innerHTML="🌱 "+greenIndex;
+    .innerHTML=
+    "🌱 "+greenIndex;
+
+    const randomFact=
+    facts[
+        Math.floor(
+            Math.random()*facts.length
+        )
+    ];
+
+    document.getElementById("factBox")
+    .innerHTML=randomFact;
+}
+
+/* ===== UPDATE ===== */
+
+function updateEnvironment(){
+
+    document.getElementById("temp")
+    .innerHTML=
+    "🌡️ "+temperature+"°C";
+
+    document.getElementById("pollution")
+    .innerHTML=
+    "🌫️ Ô nhiễm: "
+    +pollution+"%";
+
+    document.getElementById("comboText")
+    .innerHTML=
+    "🔥 Combo: "+combo;
 }
 
 /* ===== RESET ===== */
@@ -1083,22 +1203,13 @@ function reset(){
 
 function backMenu(){
 
-    const game=document.getElementById("game");
-
-    game.classList.remove("show");
-
-    game.style.display="none";
+    document.getElementById("game")
+    .style.display="none";
 
     document.getElementById("menu")
     .style.display="flex";
 
     clearInterval(timerInterval);
-
-    document.getElementById("bgMusic")
-    .pause();
-
-    document.getElementById("bgMusic")
-    .currentTime=0;
 }
 
 /* ===== POPUP ===== */
@@ -1127,10 +1238,12 @@ function rateGame(star){
     stars.forEach((s,index)=>{
 
         if(index<star){
+
             s.classList.add("active");
         }
 
         else{
+
             s.classList.remove("active");
         }
     });
@@ -1139,23 +1252,33 @@ function rateGame(star){
     document.getElementById("rateText");
 
     if(star===1){
-        text.innerHTML="😢 Chưa hay";
+
+        text.innerHTML=
+        "😢 Chưa hay";
     }
 
     else if(star===2){
-        text.innerHTML="🙂 Tạm ổn";
+
+        text.innerHTML=
+        "🙂 Tạm ổn";
     }
 
     else if(star===3){
-        text.innerHTML="😊 Khá vui";
+
+        text.innerHTML=
+        "😊 Khá vui";
     }
 
     else if(star===4){
-        text.innerHTML="😍 Rất hay";
+
+        text.innerHTML=
+        "😍 Rất hay";
     }
 
     else{
-        text.innerHTML="🔥 Tuyệt vời!";
+
+        text.innerHTML=
+        "🔥 Tuyệt vời!";
     }
 
     document.getElementById("submitRate")
@@ -1171,6 +1294,8 @@ function submitRate(){
         + selectedRate +
         " sao!"
     );
+    
+    backMenu(); // Đưa người chơi về lại menu sau khi đánh giá xong
 }
 
 </script>
