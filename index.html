@@ -33,12 +33,20 @@ html,body{
     transition:1s;
 }
 
-/* ===== PARTICLES ===== */
+/* ===== PARTICLES & LEAVES BACKGROUND (ĐÃ SỬA: Đẩy lên trên nền để không bị che khuất) ===== */
 
-#particles{
+#particles, #leavesCanvas {
     position:fixed;
     inset:0;
-    z-index:-1;
+    pointer-events: none; /* Đảm bảo không cản trở việc click bấm nút chơi game */
+}
+
+#particles {
+    z-index: 2; /* Đẩy lên trên hình nền */
+}
+
+#leavesCanvas {
+    z-index: 3; /* Đẩy lên cao hơn để nhìn thấy rõ hiệu ứng lá rơi bay ngang qua màn hình */
 }
 
 /* ===== MENU ===== */
@@ -56,6 +64,7 @@ html,body{
     gap:18px;
 
     animation:menuOpen .8s ease;
+    z-index: 10;
 }
 
 @keyframes menuOpen{
@@ -113,6 +122,7 @@ button{
     0 10px 20px rgba(0,0,0,.15);
 
     transition:.25s;
+    z-index: 15; /* Nút bấm luôn nằm trên cùng */
 }
 
 button:hover{
@@ -132,105 +142,111 @@ button:disabled {
 /* ===== GAME ===== */
 
 #game{
-
     position:absolute;
     inset:0;
-
     display:none;
+    z-index: 5;
+    background: transparent;
 }
 
-/* ===== CITY ===== */
+/* ===== CITY (ĐÃ SỬA: Làm trong suốt nhẹ để lá rơi có thể hiện ở phía sau) ===== */
 
 #city{
-
     width:40%;
-
     display:grid;
-
-    background:#98e98f;
+    background: rgba(224, 224, 224, 0.75); 
+    padding:6px;
+    gap:4px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
 }
 
 .tile{
-
     position:relative;
-
     overflow:hidden;
-
-    border:
-    1px solid rgba(255,255,255,.3);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: background 0.5s ease, transform 0.3s;
 }
 
+/* Bê tông mượt hơn */
 .tile.gray{
-    background:#777;
+    background: linear-gradient(135deg, rgba(142, 142, 147, 0.9), rgba(99, 99, 102, 0.9));
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
 }
 
+/* Bãi cỏ xanh mượt mà */
 .tile.green{
-
-    background:
-    linear-gradient(
-        to bottom,
-        #7eff72,
-        #47c947
-    );
-
-    animation:
-    greenGrow .5s ease;
+    background: linear-gradient(135deg, rgba(126, 255, 114, 0.9), rgba(61, 182, 61, 0.9));
+    border: 1px solid rgba(255,255,255,0.25);
+    animation: greenGrow .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes greenGrow{
-
     from{
         opacity:0;
         transform:scale(.8);
     }
-
     to{
         opacity:1;
         transform:scale(1);
     }
+}
+
+.tree, .flower, .butterfly{
+    position:absolute;
+    user-select: none;
 }
 
 .tree{
-
-    position:absolute;
-
-    font-size:
-    clamp(18px,2vw,35px);
-
-    animation:
-    treeGrow .6s ease;
+    font-size: clamp(18px,2.5vw,38px);
+    z-index: 3;
+    animation: itemGrow .6s cubic-bezier(0.175, 0.885, 0.32, 1.275) ease;
 }
 
-@keyframes treeGrow{
+.flower {
+    font-size: clamp(12px,1.5vw,22px);
+    z-index: 2;
+    animation: itemGrow .5s ease;
+}
 
-    from{
-        transform:scale(0);
-        opacity:0;
+/* Hiệu ứng bướm bay dập dờn sinh động */
+.butterfly {
+    font-size: clamp(10px, 1.2vw, 18px);
+    z-index: 4;
+    animation: butterflyFly 4s ease-in-out infinite alternate, itemGrow 0.5s ease;
+}
+
+@keyframes itemGrow{
+    from{ transform:scale(0); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
+
+@keyframes butterflyFly {
+    0% {
+        transform: translate(0, 0) scaleX(1);
     }
-
-    to{
-        transform:scale(1);
-        opacity:1;
+    33% {
+        transform: translate(5px, -8px) scaleX(0.8);
+    }
+    66% {
+        transform: translate(-4px, -14px) scaleX(1.1);
+    }
+    100% {
+        transform: translate(3px, -20px) scaleX(0.9);
     }
 }
 
-.flower{
-    position:absolute;
-}
-
-/* ===== RIGHT ===== */
+/* ===== RIGHT AREA ===== */
 
 #cardsArea{
-
     width:60%;
-
-    background:#f4fff4;
-
+    background: rgba(244, 255, 244, 0.4); 
+    backdrop-filter: blur(6px); 
+    -webkit-backdrop-filter: blur(6px);
     display:flex;
     flex-direction:column;
-
     align-items:center;
-
     overflow:auto;
 }
 
@@ -280,7 +296,7 @@ button:disabled {
 
 #environment div{
 
-    background:white;
+    background: rgba(255, 255, 255, 0.8); 
 
     padding:12px 18px;
 
@@ -321,8 +337,8 @@ button:disabled {
     background:
     linear-gradient(
         135deg,
-        #ffffff,
-        #efffec
+        rgba(255, 255, 255, 0.85),
+        rgba(239, 255, 236, 0.85)
     );
 
     padding:16px;
@@ -546,18 +562,13 @@ button:disabled {
 <body>
 
 <canvas id="particles"></canvas>
-
-<!-- ===== AUDIO ===== -->
-
-<audio id="flipSound"
+<canvas id="leavesCanvas"></canvas> <audio id="flipSound"
 src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3">
 </audio>
 
 <audio id="winSound"
 src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
 </audio>
-
-<!-- ===== MENU ===== -->
 
 <div id="menu">
 
@@ -586,8 +597,6 @@ src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
     </button>
 
 </div>
-
-<!-- ===== GAME ===== -->
 
 <div id="game">
 
@@ -647,8 +656,6 @@ src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
 
 </div>
 
-<!-- ===== GUIDE ===== -->
-
 <div id="guidePage" class="popup">
 
     <div class="popupBox">
@@ -660,7 +667,7 @@ src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
         </p>
 
         <p>
-            🌱 Ghép đúng sẽ phủ xanh thành phố.
+            🌱 Ghép đúng sẽ phủ xanh thành phố kèm hoa bướm sinh động.
         </p>
 
         <p>
@@ -682,8 +689,6 @@ src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
     </div>
 
 </div>
-
-<!-- ===== MEANING ===== -->
 
 <div id="meaningPage" class="popup">
 
@@ -718,8 +723,6 @@ src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
     </div>
 
 </div>
-
-<!-- ===== RATING ===== -->
 
 <div id="ratingPage" class="popup">
 
@@ -771,14 +774,14 @@ canvas.height=window.innerHeight;
 
 const particles=[];
 
-for(let i=0;i<70;i++){
+for(let i=0;i<60;i++){
 
     particles.push({
 
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
-        r:Math.random()*4+1,
-        d:Math.random()*1
+        r:Math.random()*3+1,
+        d:Math.random()*0.8+0.2
     });
 }
 
@@ -792,7 +795,7 @@ function drawParticles(){
     );
 
     ctx.fillStyle=
-    "rgba(80,200,120,.5)";
+    "rgba(76, 217, 100, 0.3)"; /* Màu xanh hạt nhạt, mờ dễ chịu */
 
     particles.forEach(p=>{
 
@@ -821,6 +824,80 @@ function drawParticles(){
 }
 
 drawParticles();
+
+
+/* ===== HIỆU ỨNG LÁ RƠI MỜ KHÔNG BỊ CHE KHUẤT ===== */
+
+const leavesCanvas = document.getElementById("leavesCanvas");
+const leavesCtx = leavesCanvas.getContext("2d");
+
+leavesCanvas.width = window.innerWidth;
+leavesCanvas.height = window.innerHeight;
+
+const leavesArray = [];
+const leafTypes = ["🍂", "🍃"];
+
+// Khởi tạo các chiếc lá bay phân bổ ngẫu nhiên
+for(let i = 0; i < 20; i++) {
+    leavesArray.push({
+        x: Math.random() * leavesCanvas.width,
+        y: Math.random() * leavesCanvas.height,
+        size: Math.random() * 10 + 16, // Kích thước emoji
+        speedX: Math.random() * 1.0 - 0.5, // Chuyển động gió thổi ngang nhẹ
+        speedY: Math.random() * 0.7 + 0.6, // Tốc độ rơi từ từ
+        type: leafTypes[Math.floor(Math.random() * leafTypes.length)],
+        angle: Math.random() * 360,
+        spinSpeed: Math.random() * 0.8 - 0.4
+    });
+}
+
+function drawLeaves() {
+    leavesCtx.clearRect(0, 0, leavesCanvas.width, leavesCanvas.height);
+    
+    // Đặt độ mờ vừa phải (opacity: 0.3) để lá hiện rõ ở tiền cảnh nhưng mờ ảo, không gây rối mắt khi chơi
+    leavesCtx.globalAlpha = 0.3; 
+
+    leavesArray.forEach(leaf => {
+        leavesCtx.save();
+        leavesCtx.translate(leaf.x, leaf.y);
+        leavesCtx.rotate((leaf.angle * Math.PI) / 180);
+        
+        leavesCtx.font = `${leaf.size}px Arial`;
+        leavesCtx.textAlign = "center";
+        leavesCtx.textBaseline = "middle";
+        leavesCtx.fillText(leaf.type, 0, 0);
+        
+        leavesCtx.restore();
+
+        // Cập nhật vị trí rơi cho frame tiếp theo
+        leaf.y += leaf.speedY;
+        leaf.x += leaf.speedX;
+        leaf.angle += leaf.spinSpeed;
+
+        // Nếu lá lọt xuống đáy màn hình, lặp lại từ đỉnh
+        if (leaf.y > leavesCanvas.height + 25) {
+            leaf.y = -25;
+            leaf.x = Math.random() * leavesCanvas.width;
+        }
+        if (leaf.x > leavesCanvas.width + 25 || leaf.x < -25) {
+            leaf.x = Math.random() * leavesCanvas.width;
+        }
+    });
+
+    leavesCtx.globalAlpha = 1.0; 
+    requestAnimationFrame(drawLeaves);
+}
+
+drawLeaves();
+
+// Resize lại canvas nếu thay đổi kích thước màn hình thiết bị
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    leavesCanvas.width = window.innerWidth;
+    leavesCanvas.height = window.innerHeight;
+});
+
 
 /* ===== ICONS ===== */
 
@@ -1125,6 +1202,8 @@ function greenTiles(){
         (totalPairs-matched+1)
     );
 
+    const flowersPool = ["🌻", "🌸", "🌼", "🌷", "🌹"];
+
     for(let i=0;i<amount;i++){
 
         if(greenIndex<tiles.length){
@@ -1136,22 +1215,35 @@ function greenTiles(){
 
             tile.classList.add("green");
 
+            // 1. Thêm Cây ngẫu nhiên
             const tree=
             document.createElement("div");
-
             tree.className="tree";
-
             tree.innerHTML=
-            ["🌳","🌲","🌴"]
-            [Math.floor(Math.random()*3)];
-
-            tree.style.left=
-            Math.random()*60+"%";
-
-            tree.style.top=
-            Math.random()*60+"%";
-
+            ["🌳","🌲","🌴"][Math.floor(Math.random()*3)];
+            tree.style.left= (Math.random()*30 + 5) +"%"; 
+            tree.style.top= (Math.random()*30 + 5) +"%";
             tile.appendChild(tree);
+
+            // 2. Xuất hiện thêm Hoa xinh xắn
+            if(Math.random() < 0.8) {
+                const flower = document.createElement("div");
+                flower.className = "flower";
+                flower.innerHTML = flowersPool[Math.floor(Math.random() * flowersPool.length)];
+                flower.style.left = (Math.random()*40 + 45) + "%"; 
+                flower.style.top = (Math.random()*40 + 45) + "%";
+                tile.appendChild(flower);
+            }
+
+            // 3. Xuất hiện thêm Bướm bay lượn dập dờn
+            if(Math.random() < 0.4) {
+                const butterfly = document.createElement("div");
+                butterfly.className = "butterfly";
+                butterfly.innerHTML = "🦋";
+                butterfly.style.left = (Math.random()*50 + 20) + "%";
+                butterfly.style.top = (Math.random()*50 + 20) + "%";
+                tile.appendChild(butterfly);
+            }
 
             greenIndex++;
         }
@@ -1295,7 +1387,7 @@ function submitRate(){
         " sao!"
     );
     
-    backMenu(); // Đưa người chơi về lại menu sau khi đánh giá xong
+    backMenu(); 
 }
 
 </script>
